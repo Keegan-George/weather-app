@@ -10,13 +10,17 @@ const locationInput = document.querySelector("#location");
 const form = document.querySelector("form");
 
 async function getWeather(location) {
-  const response = await fetch(`${BASE_URL}${location}?key=${API_KEY}`);
+  try {
+    const response = await fetch(`${BASE_URL}${location}?key=${API_KEY}`);
 
-  if (!response.ok) {
-    throw new Error(`Response status: ${response.status}`);
+    if (!response.ok) {
+      throw new Error(`Response: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error(error, { cause: error });
   }
-
-  return await response.json();
 }
 
 function processWeatherData(weatherResponse) {
@@ -31,6 +35,12 @@ function processWeatherData(weatherResponse) {
 
 form.addEventListener("submit", (event) => {
   event.preventDefault();
+
+  const location = locationInput.value;
+
+  if (!location) {
+    return;
+  }
 
   getWeather(locationInput.value).then((result) =>
     console.log(processWeatherData(result)),
