@@ -5,6 +5,10 @@ const API_KEY = "CZB8FQH63WGKAKCPYE7XCC2MQ";
 const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
 
+//dom elements
+const locationInput = document.querySelector("#location");
+const form = document.querySelector("form");
+
 async function getWeather(location) {
   const response = await fetch(`${BASE_URL}${location}?key=${API_KEY}`);
 
@@ -17,6 +21,7 @@ async function getWeather(location) {
 
 function processWeatherData(weatherResponse) {
   return {
+    location: weatherResponse.resolvedAddress,
     description: weatherResponse.description,
     temp: weatherResponse.currentConditions.temp,
     feelslike: weatherResponse.currentConditions.feelslike,
@@ -24,6 +29,10 @@ function processWeatherData(weatherResponse) {
   };
 }
 
-getWeather("las vegas").then((result) =>
-  console.log(processWeatherData(result)),
-);
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  getWeather(locationInput.value).then((result) =>
+    console.log(processWeatherData(result)),
+  );
+});
