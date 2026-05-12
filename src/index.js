@@ -12,9 +12,18 @@ async function getWeather(location) {
     throw new Error(`Response status: ${response.status}`);
   }
 
-  const result = await response.json();
-
-  return result;
+  return await response.json();
 }
 
-getWeather("las vegas").then((result) => console.log(result));
+function processWeatherData(weatherResponse) {
+  return {
+    description: weatherResponse.description,
+    temp: weatherResponse.currentConditions.temp,
+    feelslike: weatherResponse.currentConditions.feelslike,
+    icon: weatherResponse.currentConditions.icon,
+  };
+}
+
+getWeather("las vegas").then((result) =>
+  console.log(processWeatherData(result)),
+);
