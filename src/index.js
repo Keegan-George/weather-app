@@ -6,6 +6,9 @@ const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
 
 //dom elements
+const currentTemperatureEle = document.querySelector(".current-temperature");
+const locationEle = document.querySelector(".location");
+
 const locationInput = document.querySelector("#location-search");
 const form = document.querySelector("form");
 
@@ -37,6 +40,11 @@ function processWeatherData(weatherResponse) {
   };
 }
 
+function updateWeatherDisplay(weatherObject) {
+  locationEle.textContent = weatherObject.location;
+  currentTemperatureEle.textContent = weatherObject.temp;
+}
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -47,6 +55,6 @@ form.addEventListener("submit", (event) => {
   }
 
   getWeather(locationInput.value).then((result) =>
-    console.log(processWeatherData(result)),
+    updateWeatherDisplay(processWeatherData(result)),
   );
 });
