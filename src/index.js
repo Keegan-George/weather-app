@@ -4,17 +4,20 @@ import "./styles.css";
 const API_KEY = "CZB8FQH63WGKAKCPYE7XCC2MQ";
 const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
+const UNIT = "metric"; //any one of metric, uk, us, or base
 
 //dom elements
 const currentTemperatureEle = document.querySelector(".current-temperature");
 const locationEle = document.querySelector(".location");
 
-const locationInput = document.querySelector("#location-search");
 const form = document.querySelector("form");
+const locationInput = document.querySelector("#location-search");
 
 async function getWeather(location) {
   try {
-    const response = await fetch(`${BASE_URL}${location}?key=${API_KEY}`);
+    const response = await fetch(
+      `${BASE_URL}${location}?unitGroup=${UNIT}&key=${API_KEY}`,
+    );
 
     if (!response.ok) {
       throw new Error(`Response: ${response.status}`);
