@@ -6,7 +6,7 @@ const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
 
 //dom elements
-const locationInput = document.querySelector("#location");
+const locationInput = document.querySelector("#location-search");
 const form = document.querySelector("form");
 
 async function getWeather(location) {
@@ -27,9 +27,13 @@ function processWeatherData(weatherResponse) {
   return {
     location: weatherResponse.resolvedAddress,
     description: weatherResponse.description,
-    temp: weatherResponse.currentConditions.temp,
     feelslike: weatherResponse.currentConditions.feelslike,
+    humidity: weatherResponse.currentConditions.humidity,
     icon: weatherResponse.currentConditions.icon,
+    temp: weatherResponse.currentConditions.temp,
+    uvindex: weatherResponse.currentConditions.uvindex,
+    visibility: weatherResponse.currentConditions.visibility,
+    windspeed: weatherResponse.currentConditions.windspeed,
   };
 }
 
