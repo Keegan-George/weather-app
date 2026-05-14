@@ -6,9 +6,14 @@ const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
 
 //dom elements
-const currentTemperatureEle = document.querySelector(".current-temperature");
 const locationEle = document.querySelector(".location");
+const currentTemperatureEle = document.querySelector(".current-temperature");
+const descriptionEle = document.querySelector(".description");
 const feelsLikeEle = document.querySelector(".feels-like");
+const humidityEle = document.querySelector(".humidity");
+const uvIndexEle = document.querySelector(".uv-index");
+const visibilityEle = document.querySelector(".visibility");
+const windSpeedEle = document.querySelector(".wind-speed");
 
 const form = document.querySelector("form");
 const locationInput = document.querySelector("#location-search");
@@ -57,6 +62,9 @@ function processWeatherData(weatherResponse) {
 
 function updateWeatherDisplay() {
   locationEle.textContent = currentWeatherData.location;
+  humidityEle.textContent = currentWeatherData.humidity;
+  uvIndexEle.textContent = currentWeatherData.uvindex;
+  descriptionEle.textContent = currentWeatherData.description;
 
   currentTemperatureEle.textContent = isMetric
     ? currentWeatherData.temp
@@ -65,6 +73,14 @@ function updateWeatherDisplay() {
   feelsLikeEle.textContent = isMetric
     ? currentWeatherData.feelslike
     : currentWeatherData.feelslike_f;
+
+  visibilityEle.textContent = isMetric
+    ? currentWeatherData.visibility
+    : currentWeatherData.visibility_mi;
+
+  windSpeedEle.textContent = isMetric
+    ? currentWeatherData.windspeed
+    : currentWeatherData.windspeed_mi;
 }
 
 function celciusToFahrenheit(temp) {
