@@ -1,22 +1,26 @@
 import "./styles.css";
 
-//visual crossing api details
+//visual crossing query parameters
 const API_KEY = "CZB8FQH63WGKAKCPYE7XCC2MQ";
 const BASE_URL =
   "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/";
-const UNIT = "metric"; //any one of metric, uk, us, or base
 
 //dom elements
 const currentTemperatureEle = document.querySelector(".current-temperature");
 const locationEle = document.querySelector(".location");
-
 const form = document.querySelector("form");
 const locationInput = document.querySelector("#location-search");
+const celciusButton = document.querySelector(".celcius_btn");
+const fahrenheitButton = document.querySelector(".fahrenheit_btn");
+
+//constants
+let isMetric = true;
+let currentWeatherData = undefined;
 
 async function getWeather(location) {
   try {
     const response = await fetch(
-      `${BASE_URL}${location}?unitGroup=${UNIT}&key=${API_KEY}`,
+      `${BASE_URL}${location}?unitGroup=metric&key=${API_KEY}`,
     );
 
     if (!response.ok) {
@@ -40,18 +44,21 @@ function processWeatherData(weatherResponse) {
     uvindex: weatherResponse.currentConditions.uvindex,
     visibility: weatherResponse.currentConditions.visibility,
     windspeed: weatherResponse.currentConditions.windspeed,
-    feelslike_F: celciusToFahrenheit(
+    feelslike_f: celciusToFahrenheit(
       weatherResponse.currentConditions.feelslike,
     ),
-    temp_F: celciusToFahrenheit(weatherResponse.currentConditions.temp),
-    visibility_Mi: kmToMiles(weatherResponse.currentConditions.visibility),
-    windspeed_Miles: kmToMiles(weatherResponse.currentConditions.windspeed),
+    temp_f: celciusToFahrenheit(weatherResponse.currentConditions.temp),
+    visibility_mi: kmToMiles(weatherResponse.currentConditions.visibility),
+    windspeed_mi: kmToMiles(weatherResponse.currentConditions.windspeed),
   };
 }
 
-function updateWeatherDisplay(weatherObject) {
-  locationEle.textContent = weatherObject.location;
-  currentTemperatureEle.textContent = weatherObject.temp;
+function updateWeatherDisplay() {
+  locationEle.textContent = currentWeatherData.location;
+
+  if (isMetric) {
+    currentTemperatureEle.textContent = currentWeatherData.temp;
+  }
 }
 
 function celciusToFahrenheit(temp) {
@@ -62,6 +69,22 @@ function kmToMiles(distance) {
   return distance / 1.609;
 }
 
+celciusButton.addEventListener(() => {
+  if (isMetric) {
+    return;
+  }
+
+  isMetric = true;
+});
+
+fahrenheitButton.addEventListener(() => {
+  if (!isMetric) {
+    return;
+  }
+
+  isMetric = false;
+});
+
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -71,7 +94,9 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  getWeather(locationInput.value).then((result) =>
-    updateWeatherDisplay(processWeatherData(result)),
+  currentWeatherData = getWeather(location.value).then((result) =>
+    processWeatherData(result),
   );
+
+  updateWeatherDisplay();
 });
