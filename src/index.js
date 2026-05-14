@@ -58,13 +58,13 @@ function processWeatherData(weatherResponse) {
 function updateWeatherDisplay() {
   locationEle.textContent = currentWeatherData.location;
 
-  if (isMetric) {
-    currentTemperatureEle.textContent = currentWeatherData.temp;
-    feelsLikeEle.textContent = currentWeatherData.feelslike;
-  } else {
-    currentTemperatureEle.textContent = currentWeatherData.temp_f;
-    feelsLikeEle.textContent = currentWeatherData.feelslike_f;
-  }
+  currentTemperatureEle.textContent = isMetric
+    ? currentWeatherData.temp
+    : currentWeatherData.temp_f;
+
+  feelsLikeEle.textContent = isMetric
+    ? currentWeatherData.feelslike
+    : currentWeatherData.feelslike_f;
 }
 
 function celciusToFahrenheit(temp) {
