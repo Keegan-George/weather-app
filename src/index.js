@@ -40,12 +40,26 @@ function processWeatherData(weatherResponse) {
     uvindex: weatherResponse.currentConditions.uvindex,
     visibility: weatherResponse.currentConditions.visibility,
     windspeed: weatherResponse.currentConditions.windspeed,
+    feelslike_F: celciusToFahrenheit(
+      weatherResponse.currentConditions.feelslike,
+    ),
+    temp_F: celciusToFahrenheit(weatherResponse.currentConditions.temp),
+    visibility_Mi: kmToMiles(weatherResponse.currentConditions.visibility),
+    windspeed_Miles: kmToMiles(weatherResponse.currentConditions.windspeed),
   };
 }
 
 function updateWeatherDisplay(weatherObject) {
   locationEle.textContent = weatherObject.location;
   currentTemperatureEle.textContent = weatherObject.temp;
+}
+
+function celciusToFahrenheit(temp) {
+  return temp * (9 / 5) + 32;
+}
+
+function kmToMiles(distance) {
+  return distance / 1.609;
 }
 
 form.addEventListener("submit", (event) => {
