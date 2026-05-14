@@ -8,6 +8,8 @@ const BASE_URL =
 //dom elements
 const currentTemperatureEle = document.querySelector(".current-temperature");
 const locationEle = document.querySelector(".location");
+const feelsLikeEle = document.querySelector(".feels-like");
+
 const form = document.querySelector("form");
 const locationInput = document.querySelector("#location-search");
 const celciusButton = document.querySelector(".celcius_btn");
@@ -58,6 +60,10 @@ function updateWeatherDisplay() {
 
   if (isMetric) {
     currentTemperatureEle.textContent = currentWeatherData.temp;
+    feelsLikeEle.textContent = currentWeatherData.feelslike;
+  } else {
+    currentTemperatureEle.textContent = currentWeatherData.temp_f;
+    feelsLikeEle.textContent = currentWeatherData.feelslike_f;
   }
 }
 
@@ -69,20 +75,24 @@ function kmToMiles(distance) {
   return distance / 1.609;
 }
 
-celciusButton.addEventListener(() => {
+celciusButton.addEventListener("click", () => {
   if (isMetric) {
     return;
   }
 
   isMetric = true;
+
+  updateWeatherDisplay();
 });
 
-fahrenheitButton.addEventListener(() => {
+fahrenheitButton.addEventListener("click", () => {
   if (!isMetric) {
     return;
   }
 
   isMetric = false;
+
+  updateWeatherDisplay();
 });
 
 form.addEventListener("submit", (event) => {
@@ -94,9 +104,7 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
-  currentWeatherData = getWeather(location.value).then((result) =>
-    processWeatherData(result),
-  );
-
-  updateWeatherDisplay();
+  getWeather(location)
+    .then((result) => (currentWeatherData = processWeatherData(result)))
+    .then(() => updateWeatherDisplay());
 });
