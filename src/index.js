@@ -7,13 +7,21 @@ const BASE_URL =
 
 //dom elements
 const locationEle = document.querySelector(".location");
-const currentTemperatureEle = document.querySelector(".current-temperature");
+const currentTemperatureValue = document.querySelector(
+  ".current-temperature .value",
+);
+const currentTemperatureUnit = document.querySelector(
+  ".current-temperature .unit",
+);
 const descriptionEle = document.querySelector(".description");
-const feelsLikeEle = document.querySelector(".feels-like");
-const humidityEle = document.querySelector(".humidity");
-const uvIndexEle = document.querySelector(".uv-index");
-const visibilityEle = document.querySelector(".visibility");
-const windSpeedEle = document.querySelector(".wind-speed");
+const feelsLikeValue = document.querySelector(".feels-like .value");
+const feelsLikeUnit = document.querySelector(".feels-like .unit");
+const humidityValue = document.querySelector(".humidity .value");
+const uvIndexValue = document.querySelector(".uv-index .value");
+const visibilityValue = document.querySelector(".visibility .value");
+const visibilityUnit = document.querySelector(".visibility .unit");
+const windSpeedValue = document.querySelector(".wind-speed .value");
+const windSpeedUnit = document.querySelector(".wind-speed .unit");
 
 const form = document.querySelector("form");
 const locationInput = document.querySelector("#location-search");
@@ -62,25 +70,35 @@ function processWeatherData(weatherResponse) {
 
 function updateWeatherDisplay() {
   locationEle.textContent = currentWeatherData.location;
-  humidityEle.textContent = currentWeatherData.humidity;
-  uvIndexEle.textContent = currentWeatherData.uvindex;
-  descriptionEle.textContent = currentWeatherData.description;
 
-  currentTemperatureEle.textContent = isMetric
+  currentTemperatureValue.textContent = isMetric
     ? currentWeatherData.temp
     : currentWeatherData.temp_f;
 
-  feelsLikeEle.textContent = isMetric
+  currentTemperatureUnit.textContent = isMetric ? "\u00B0C" : "\u00B0F";
+
+  descriptionEle.textContent = currentWeatherData.description;
+
+  feelsLikeValue.textContent = isMetric
     ? currentWeatherData.feelslike
     : currentWeatherData.feelslike_f;
 
-  visibilityEle.textContent = isMetric
+  feelsLikeUnit.textContent = isMetric ? "\u00B0C" : "\u00B0F";
+
+  humidityValue.textContent = currentWeatherData.humidity;
+  uvIndexValue.textContent = currentWeatherData.uvindex;
+
+  visibilityValue.textContent = isMetric
     ? currentWeatherData.visibility
     : currentWeatherData.visibility_mi;
 
-  windSpeedEle.textContent = isMetric
+  visibilityUnit.textContent = isMetric ? "km" : "mi";
+
+  windSpeedValue.textContent = isMetric
     ? currentWeatherData.windspeed
     : currentWeatherData.windspeed_mi;
+
+  windSpeedUnit.textContent = isMetric ? "km/h" : "mph";
 }
 
 function celciusToFahrenheit(temp) {
