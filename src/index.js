@@ -52,19 +52,25 @@ function processWeatherData(weatherResponse) {
   return {
     location: weatherResponse.resolvedAddress,
     description: weatherResponse.description,
-    feelslike: weatherResponse.currentConditions.feelslike,
-    humidity: weatherResponse.currentConditions.humidity,
+    feelslike: Math.round(weatherResponse.currentConditions.feelslike),
+    humidity: Math.round(weatherResponse.currentConditions.humidity),
     icon: weatherResponse.currentConditions.icon,
-    temp: weatherResponse.currentConditions.temp,
+    temp: Math.round(weatherResponse.currentConditions.temp),
     uvindex: weatherResponse.currentConditions.uvindex,
-    visibility: weatherResponse.currentConditions.visibility,
-    windspeed: weatherResponse.currentConditions.windspeed,
-    feelslike_f: celciusToFahrenheit(
-      weatherResponse.currentConditions.feelslike,
+    visibility: Math.round(weatherResponse.currentConditions.visibility),
+    windspeed: Math.round(weatherResponse.currentConditions.windspeed),
+    temp_f: Math.round(
+      celciusToFahrenheit(weatherResponse.currentConditions.temp),
     ),
-    temp_f: celciusToFahrenheit(weatherResponse.currentConditions.temp),
-    visibility_mi: kmToMiles(weatherResponse.currentConditions.visibility),
-    windspeed_mi: kmToMiles(weatherResponse.currentConditions.windspeed),
+    feelslike_f: Math.round(
+      celciusToFahrenheit(weatherResponse.currentConditions.feelslike),
+    ),
+    visibility_mi: Math.round(
+      kmToMiles(weatherResponse.currentConditions.visibility),
+    ),
+    windspeed_mi: Math.round(
+      kmToMiles(weatherResponse.currentConditions.windspeed),
+    ),
   };
 }
 
