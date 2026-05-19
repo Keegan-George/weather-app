@@ -3,3 +3,45 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+:root {
+  /* spacing */
+  --spacing-xs: 0.5rem;
+
+  /* input search */
+  --input-search-height: 3rem;
+  --input-search-width: 35rem;
+  --input-search-radius: 20px;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.search input {
+  height: var(--input-search-height);
+  width: var(--input-search-width);
+  border-radius: var(--input-search-radius);
+  padding: var(--spacing-xs);
+  border: 1px solid black;
+}
+
+.search input:focus {
+  outline: none;
+  border: 1px solid blue;
+}
+
+.search button {
+  height: var(--input-search-height);
+  border-radius: 20px;
+  padding: var(--spacing-xs);
+  transition: transform 0.4s ease;
+}
+
+.search button:hover {
+  transform: scale(1.1);
+}
