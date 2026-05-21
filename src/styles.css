@@ -28,7 +28,26 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
 
+.weather-display {
+  display: grid;
+  grid-template-areas:
+    "weather-icon temperature-display"
+    "weather-icon weather-details";
+  grid-template-columns: 1fr 1fr;
+}
+
+.weather-icon {
+  grid-area: weather-icon;
+}
+
+.temperature-display {
+  grid-area: temperature-display;
+}
+
+.weather-details {
+  grid-area: weather-details;
 }
 
 .search {
