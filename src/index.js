@@ -107,23 +107,18 @@ function updateWeatherDisplay() {
 
   windSpeedUnit.textContent = isMetric ? "km/h" : "mph";
 
-  // const test = getImage(currentWeatherData.icon);
-
-  import(`./imgs/weather-icons/${currentWeatherData.icon}.svg`).then(
-    (module) => {
-      const weatherImage = document.createElement("img");
-      weatherImage.src = module.default;
-      weatherIconEle.textContent = "";
-      weatherIconEle.appendChild(weatherImage);
-    },
+  weatherIconEle.textContent = ""; //remove any existing icon
+  getImage(currentWeatherData.icon).then((img) =>
+    weatherIconEle.appendChild(img),
   );
 }
 
-// async function getImage(filename) {
-//   const module = await import(`./imgs/weather-icons/${filename}.svg`);
-//   console.log(module);
-//   return module;
-// }
+async function getImage(filename) {
+  const module = await import(`./imgs/weather-icons/${filename}.svg`);
+  const img = document.createElement("img");
+  img.src = module.default;
+  return img;
+}
 
 function celciusToFahrenheit(temp) {
   return temp * (9 / 5) + 32;
