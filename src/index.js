@@ -7,6 +7,7 @@ const BASE_URL =
 
 //dom elements
 const locationEle = document.querySelector(".location");
+const weatherIconEle = document.querySelector(".weather-icon");
 const currentTemperatureValue = document.querySelector(
   ".current-temperature .value",
 );
@@ -105,7 +106,24 @@ function updateWeatherDisplay() {
     : currentWeatherData.windspeed_mi;
 
   windSpeedUnit.textContent = isMetric ? "km/h" : "mph";
+
+  // const test = getImage(currentWeatherData.icon);
+
+  import(`./imgs/weather-icons/${currentWeatherData.icon}.svg`).then(
+    (module) => {
+      const weatherImage = document.createElement("img");
+      weatherImage.src = module.default;
+      weatherIconEle.textContent = "";
+      weatherIconEle.appendChild(weatherImage);
+    },
+  );
 }
+
+// async function getImage(filename) {
+//   const module = await import(`./imgs/weather-icons/${filename}.svg`);
+//   console.log(module);
+//   return module;
+// }
 
 function celciusToFahrenheit(temp) {
   return temp * (9 / 5) + 32;
